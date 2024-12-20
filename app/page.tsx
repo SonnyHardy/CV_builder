@@ -3,9 +3,10 @@ import { Eye, RotateCw } from "lucide-react";
 import Image from "next/image";
 import PersonalDetailsForm from "./components/PersonalDetailsForm";
 import { useState } from "react";
-import { PersonalDetails } from "@/type";
-import { personalDetailsPreset } from "@/preset";
+import { Experience, PersonalDetails } from "@/type";
+import { experiencesPreset, personalDetailsPreset } from "@/preset";
 import CVPreview from "./components/CVPreview";
+import ExperienceForm from "./components/ExperienceForm";
 
 export default function Home() {
 
@@ -13,6 +14,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [theme, setTheme] = useState<string>('sunset');
   const [zoom, setZoom] = useState<number>(163);
+  const [experiences, setExperiences] = useState<Experience[]>(experiencesPreset);
 
   const themes = [
     "light",
@@ -49,6 +51,18 @@ export default function Home() {
     "sunset",
   ];
 
+  const handleResetPersonalDetails = () => setPersonalDetails(
+    {
+      fullName: '',
+      email: '',
+      phone: '',
+      address: '',
+      photoUrl: '',
+      description: '',
+      postSeeking: ''
+    }
+  )
+
   return (
     <div>
 
@@ -61,7 +75,7 @@ export default function Home() {
                 CV 
                 <span className="text-primary">Builder</span>
               </h1>
-              <button className="btn btn-primary">
+              <button className="btn btn-primary text-center">
                 Preview <Eye className="w-4" />
               </button>
             </div>
@@ -70,7 +84,7 @@ export default function Home() {
 
               <div className="flex justify-between items-center">
                 <h1 className="badge badge-primary badge-outline">Who are you ?</h1>
-                <button className="btn btn-primary btn-sm">
+                <button onClick={handleResetPersonalDetails} className="btn btn-primary btn-sm">
                   <RotateCw className="w-4" />
                 </button>
               </div>
@@ -82,11 +96,17 @@ export default function Home() {
               />
 
               <div className="flex justify-between items-center">
-                <h1 className="badge badge-primary badge-outline">Who are you ?</h1>
+                <h1 className="badge badge-primary badge-outline">Experiences</h1>
                 <button className="btn btn-primary btn-sm">
                   <RotateCw className="w-4" />
                 </button>
               </div>
+
+              <ExperienceForm
+                experiences={experiences}
+                setExperiences={setExperiences}
+              />
+
             </div>
 
           </div>
