@@ -3,10 +3,11 @@ import { Eye, RotateCw } from "lucide-react";
 import Image from "next/image";
 import PersonalDetailsForm from "./components/PersonalDetailsForm";
 import { useState } from "react";
-import { Experience, PersonalDetails } from "@/type";
-import { experiencesPreset, personalDetailsPreset } from "@/preset";
+import { Education, Experience, PersonalDetails } from "@/type";
+import { educationsPreset, experiencesPreset, personalDetailsPreset } from "@/preset";
 import CVPreview from "./components/CVPreview";
 import ExperienceForm from "./components/ExperienceForm";
+import EducationForm from "./components/EducationForm";
 
 export default function Home() {
 
@@ -15,6 +16,7 @@ export default function Home() {
   const [theme, setTheme] = useState<string>('sunset');
   const [zoom, setZoom] = useState<number>(163);
   const [experiences, setExperiences] = useState<Experience[]>(experiencesPreset);
+  const [educations, setEducations] = useState<Education[]>(educationsPreset);
 
   const themes = [
     "light",
@@ -61,7 +63,10 @@ export default function Home() {
       description: '',
       postSeeking: ''
     }
-  )
+  );
+
+  const handleResetExperience = () => setExperiences([]);
+  const handleResetEducation = () => setEducations([]);
 
   return (
     <div>
@@ -97,7 +102,7 @@ export default function Home() {
 
               <div className="flex justify-between items-center">
                 <h1 className="badge badge-primary badge-outline">Experiences</h1>
-                <button className="btn btn-primary btn-sm">
+                <button onClick={handleResetExperience} className="btn btn-primary btn-sm">
                   <RotateCw className="w-4" />
                 </button>
               </div>
@@ -105,6 +110,18 @@ export default function Home() {
               <ExperienceForm
                 experiences={experiences}
                 setExperiences={setExperiences}
+              />
+
+              <div className="flex justify-between items-center">
+                <h1 className="badge badge-primary badge-outline">Educaiton</h1>
+                <button onClick={handleResetEducation} className="btn btn-primary btn-sm">
+                  <RotateCw className="w-4" />
+                </button>
+              </div>
+
+              <EducationForm
+                educations={educations}
+                setEducations={setEducations}
               />
 
             </div>
@@ -141,6 +158,7 @@ export default function Home() {
                 personalDetails={personalDetails}
                 file={file}
                 theme={theme}
+                experiences={experiences}
               />
             </div>
           </div>

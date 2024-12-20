@@ -1,15 +1,22 @@
-import { PersonalDetails } from '@/type';
+import { Experience, PersonalDetails } from '@/type';
 import React from 'react';
 import Image from 'next/image';
-import { Mail, MapPinCheckInside, Phone } from 'lucide-react';
+import { BriefcaseBusiness, Mail, MapPinCheckInside, Phone } from 'lucide-react';
 
 type Props = {
     personalDetails: PersonalDetails;
     file: File | null;
     theme: string;
+    experiences: Experience[];
 }
 
-const CVPreview: React.FC<Props> = ({personalDetails, file, theme}) => {
+function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {day: '2-digit', month: 'short', year: 'numeric'};
+    return date.toLocaleDateString('fr-FR', options);
+}
+
+const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences}) => {
 
     return (
         <div className={`flex p-16 w-[1000px] h-[1200px] shadow-lg`} data-theme={theme}>
@@ -86,6 +93,33 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme}) => {
                         {personalDetails.description}
                     </p>
                 </div>
+
+                <section className='w-full h-fit p-5'>
+                    <div>
+                        <h1 className='uppercase font-bold mb-2'>Experiences</h1>
+                        <ul className='steps steps-vertical space-y-3'>
+                            {experiences.map((exp, index) => (
+                                <li className='step step-primary' key={index}>
+                                    <div className='text-left'>
+                                        <h2 className='flex text-md uppercase'>
+                                            <BriefcaseBusiness className='w-5' />
+                                            <span className='ml-2'>{exp.jobTitle}</span>
+                                        </h2>
+
+                                        <div className='text-sm my-2'>
+                                            <span className='badge badge-primary'>{exp.companyName}</span>
+                                            <span className='italic ml-2'>
+                                                {formatDate(exp.startDate)} au {formatDate(exp.endDate)}
+                                            </span>
+                                        </div>
+
+                                        <p className='text-sm'>{exp.description}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </section>
             </div>
         </div>
     )
