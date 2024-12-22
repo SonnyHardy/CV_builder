@@ -1,8 +1,8 @@
 "use client"
-import { Eye, RotateCw } from "lucide-react";
+import { Eye, RotateCw, Save } from "lucide-react";
 import Image from "next/image";
 import PersonalDetailsForm from "./components/PersonalDetailsForm";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Education, Experience, Hobby, Language, PersonalDetails, Skill } from "@/type";
 import { educationsPreset, experiencesPreset, hobbiesPreset, languagesPreset, personalDetailsPreset, skillsPreset } from "@/preset";
 import CVPreview from "./components/CVPreview";
@@ -11,6 +11,9 @@ import EducationForm from "./components/EducationForm";
 import LanguageForm from "./components/LanguageForm";
 import SkillForm from "./components/SkillForm";
 import HobbyForm from "./components/HobbyForm";
+import html2canvas from "html2canvas-pro";
+import jsPDF from "jspdf";
+import confetti from "canvas-confetti";
 
 export default function Home() {
 
@@ -87,6 +90,50 @@ export default function Home() {
   const handleResetSkills = () => setSkills([]);
   const handleResetHobbies = () => setHobbies([]);
 
+  const cvPreviewRef = useRef(null);
+
+  const handleDownloadPdf = async () => {
+    const element = cvPreviewRef.current;
+    if(element) {
+      try {
+        const canvas = await html2canvas(element, {
+          scale: 3,
+          useCORS: true
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+
+        const pdf = new jsPDF({
+          orientation: "portrait",
+          unit: 'mm',
+          format: "A4"
+        });
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        //pdf.addImage(imgData, 'PNG', 0, 0, 211, 298);
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('CV.pdf');
+
+        const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
+        if(modal){
+          modal.close();
+        }
+
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: {y: 0.6},
+          zIndex: 9999
+        })
+
+      } catch (error) {
+        console.error('Error when generating the PDF:', error);
+      }
+    }
+  }
+
   return (
     <div>
 
@@ -99,7 +146,11 @@ export default function Home() {
                 CV 
                 <span className="text-primary">Builder</span>
               </h1>
-              <button className="btn btn-primary text-center">
+
+              <button
+                className="btn btn-primary text-center"
+                onClick={()=>(document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}
+                >
                 Preview <Eye className="w-4" />
               </button>
             </div>
@@ -233,6 +284,46 @@ export default function Home() {
           </div>
 
         </section>
+
+
+        {/* Preview popup */}        
+        <dialog id="my_modal_3" className="modal">
+          <div className="modal-box w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            
+            <div className="mt-5">
+              <div className="flex justify-end mb-5">
+                <button
+                  className="btn btn-primary"
+                  onClick={handleDownloadPdf}
+                >
+                  Save <Save className="w-4" />
+                </button>
+              </div>
+
+              <div className="w-full max-w-full overflow-auto">
+                <div className="w-full max-w-full flex justify-center items-center">
+                  <CVPreview 
+                    personalDetails={personalDetails}
+                    file={file}
+                    theme={theme}
+                    experiences={experiences}
+                    educations={educations}
+                    languages={languages}
+                    skills={skills}
+                    hobbies={hobbies}
+                    download={true}
+                    ref={cvPreviewRef}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </dialog>
+
       </div>
 
       <div className="lg:hidden">

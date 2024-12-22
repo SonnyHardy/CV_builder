@@ -12,6 +12,8 @@ type Props = {
     languages: Language[];
     skills: Skill[];
     hobbies: Hobby[];
+    download?: boolean;
+    ref?: any;
 }
 
 function formatDate(dateString: string): string {
@@ -54,10 +56,10 @@ const getStarRating = (proficiency: string) => {
     );
 }
 
-const CVPreview: React.FC<Props> = ({ personalDetails, file, theme, experiences, educations, languages, skills, hobbies }) => {
+const CVPreview: React.FC<Props> = ({ personalDetails, file, theme, experiences, educations, languages, skills, hobbies, download, ref }) => {
 
     return (
-        <div className={`flex p-16 w-[1000px] h-[1200px] shadow-lg`} data-theme={theme}>
+        <div ref={ref} className={`flex p-16 w-[1000px] h-[1200px] shadow-lg ${download ? 'mb-10' : ''}`} data-theme={theme}>
 
             {/* Profil image and contact */}
             <div className='flex flex-col w-1/3'>
