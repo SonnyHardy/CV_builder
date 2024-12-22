@@ -34,7 +34,7 @@ export const educationsPreset: Education[] = [
     {
         id: 'uuid-3',
         degree: 'Master en Informatique',
-        school: 'Edu',
+        school: 'IUGET',
         startDate: '2015-09-01',
         endDate: '2018-06-01',
         description: 'Spécialisation en développement web et bases de données.'

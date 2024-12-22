@@ -1,13 +1,14 @@
-import { Experience, PersonalDetails } from '@/type';
+import { Education, Experience, PersonalDetails } from '@/type';
 import React from 'react';
 import Image from 'next/image';
-import { BriefcaseBusiness, Mail, MapPinCheckInside, Phone } from 'lucide-react';
+import { BriefcaseBusiness, GraduationCap, Mail, MapPinCheckInside, Phone } from 'lucide-react';
 
 type Props = {
     personalDetails: PersonalDetails;
     file: File | null;
     theme: string;
     experiences: Experience[];
+    educations: Education[];
 }
 
 function formatDate(dateString: string): string {
@@ -16,7 +17,7 @@ function formatDate(dateString: string): string {
     return date.toLocaleDateString('fr-FR', options);
 }
 
-const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences}) => {
+const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, educations}) => {
 
     return (
         <div className={`flex p-16 w-[1000px] h-[1200px] shadow-lg`} data-theme={theme}>
@@ -95,6 +96,7 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences})
                 </div>
 
                 <section className='w-full h-fit p-5'>
+
                     <div>
                         <h1 className='uppercase font-bold mb-2'>Experiences</h1>
                         <ul className='steps steps-vertical space-y-3'>
@@ -119,6 +121,32 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences})
                             ))}
                         </ul>
                     </div>
+
+                    <div className='mt-6'>
+                        <h1 className='uppercase font-bold mb-2'>Education</h1>
+                        <ul className='steps steps-vertical space-y-3'>
+                            {educations.map((edu, index) => (
+                                <li className='step step-primary' key={index}>
+                                    <div className='text-left'>
+                                        <h2 className='flex text-md uppercase'>
+                                            <GraduationCap className='w-5' />
+                                            <span className='ml-2'>{edu.degree}</span>
+                                        </h2>
+
+                                        <div className='text-sm my-2'>
+                                            <span className='badge badge-primary'>{edu.school}</span>
+                                            <span className='italic ml-2'>
+                                                {formatDate(edu.startDate)} au {formatDate(edu.endDate)}
+                                            </span>
+                                        </div>
+
+                                        <p className='text-sm'>{edu.description}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                 </section>
             </div>
         </div>

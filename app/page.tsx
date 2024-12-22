@@ -113,7 +113,7 @@ export default function Home() {
               />
 
               <div className="flex justify-between items-center">
-                <h1 className="badge badge-primary badge-outline">Educaiton</h1>
+                <h1 className="badge badge-primary badge-outline">Education</h1>
                 <button onClick={handleResetEducation} className="btn btn-primary btn-sm">
                   <RotateCw className="w-4" />
                 </button>
@@ -123,6 +123,13 @@ export default function Home() {
                 educations={educations}
                 setEducations={setEducations}
               />
+
+              <div className="flex justify-between items-center">
+                <h1 className="badge badge-primary badge-outline">Language</h1>
+                <button onClick={handleResetEducation} className="btn btn-primary btn-sm">
+                  <RotateCw className="w-4" />
+                </button>
+              </div>
 
             </div>
 
@@ -159,6 +166,7 @@ export default function Home() {
                 file={file}
                 theme={theme}
                 experiences={experiences}
+                educations={educations}
               />
             </div>
           </div>
