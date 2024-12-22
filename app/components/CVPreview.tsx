@@ -1,7 +1,7 @@
-import { Education, Experience, PersonalDetails } from '@/type';
+import { Education, Experience, Language, PersonalDetails } from '@/type';
 import React from 'react';
 import Image from 'next/image';
-import { BriefcaseBusiness, GraduationCap, Mail, MapPinCheckInside, Phone } from 'lucide-react';
+import { BriefcaseBusiness, GraduationCap, Mail, MapPinCheckInside, Phone, Star } from 'lucide-react';
 
 type Props = {
     personalDetails: PersonalDetails;
@@ -9,6 +9,7 @@ type Props = {
     theme: string;
     experiences: Experience[];
     educations: Education[];
+    languages: Language[];
 }
 
 function formatDate(dateString: string): string {
@@ -17,12 +18,49 @@ function formatDate(dateString: string): string {
     return date.toLocaleDateString('fr-FR', options);
 }
 
-const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, educations}) => {
+const getStarRating = (proficiency: string) => {
+    const maxStars: number = 5;
+    let filledStars: number = 0;
+
+    switch (proficiency) {
+        case 'Beginner':
+            filledStars = 1;
+            break;
+
+        case 'Intermediate':
+            filledStars = 3;
+            break;
+
+        case 'Advanced':
+            filledStars = 5;
+            break;
+    
+        default:
+            filledStars = 0;
+            break;
+    }
+
+    return(
+        <>
+            {Array.from({length: filledStars}, (_, index) => (
+                <Star key={index} className={`text-primary`} />
+            ))}
+            {Array.from({length: maxStars - filledStars}, (_, index) => (
+                <Star key={index + filledStars} className="text-gray-200" />
+            ))}
+        </>
+    );
+}
+
+const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, educations, languages}) => {
 
     return (
         <div className={`flex p-16 w-[1000px] h-[1200px] shadow-lg`} data-theme={theme}>
+
+            {/* Profil image and contact */}
             <div className='flex flex-col w-1/3'>
 
+                {/* Profil image */}
                 <div className='h-80 rounded-full border-8 overflow-hidden border-primary'>
                     {file && (
                         <Image
@@ -41,6 +79,8 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, 
                 </div>
 
                 <div className='mt-4 flex flex-col w-full'>
+
+                    {/* Contact */}
                     <div>
                         <h1 className='uppercase font-bold my-2'>
                             Contact
@@ -79,10 +119,30 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, 
                             </li>
                         </ul>
                     </div>
-                </div>
-            </div>
 
+                    {/* Languages */}
+                    <div className='mt-6'>
+                        <h1 className='uppercase font-bold my-2'>Languages</h1>
+                    </div>
+                    <div className='flex flex-col space-y-2'>
+                        {languages.map((lang, index) => (
+                            <div key={index}>
+                                <span className='capitalize font-semibold'>
+                                    {lang.language}
+                                </span>
+                                <div className='flex mt-2'>
+                                    {getStarRating(lang.proficiency)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+            </div>
+            
             <div className='w-2/3 ml-8'>
+
+                {/* Description */}
                 <div className='w-full flex flex-col space-y-4'>
                     <h1 className='uppercase text-xl'>
                         {personalDetails.fullName}
@@ -97,6 +157,7 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, 
 
                 <section className='w-full h-fit p-5'>
 
+                    {/* Experiences */}
                     <div>
                         <h1 className='uppercase font-bold mb-2'>Experiences</h1>
                         <ul className='steps steps-vertical space-y-3'>
@@ -122,6 +183,7 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, 
                         </ul>
                     </div>
 
+                    {/* Education */}
                     <div className='mt-6'>
                         <h1 className='uppercase font-bold mb-2'>Education</h1>
                         <ul className='steps steps-vertical space-y-3'>

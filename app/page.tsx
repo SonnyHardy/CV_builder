@@ -2,12 +2,14 @@
 import { Eye, RotateCw } from "lucide-react";
 import Image from "next/image";
 import PersonalDetailsForm from "./components/PersonalDetailsForm";
-import { useState } from "react";
-import { Education, Experience, PersonalDetails } from "@/type";
-import { educationsPreset, experiencesPreset, personalDetailsPreset } from "@/preset";
+import { useEffect, useState } from "react";
+import { Education, Experience, Hobby, Language, PersonalDetails, Skill } from "@/type";
+import { educationsPreset, experiencesPreset, hobbiesPreset, languagesPreset, personalDetailsPreset, skillsPreset } from "@/preset";
 import CVPreview from "./components/CVPreview";
 import ExperienceForm from "./components/ExperienceForm";
 import EducationForm from "./components/EducationForm";
+import LanguageForm from "./components/LanguageForm";
+import SkillForm from "./components/SkillForm";
 
 export default function Home() {
 
@@ -17,6 +19,19 @@ export default function Home() {
   const [zoom, setZoom] = useState<number>(163);
   const [experiences, setExperiences] = useState<Experience[]>(experiencesPreset);
   const [educations, setEducations] = useState<Education[]>(educationsPreset);
+  const [languages, setLanguages] = useState<Language[]>(languagesPreset);
+  const [skills, setSkills] = useState<Skill[]>(skillsPreset);
+  const [hobbies, setHobbies] = useState<Hobby[]>(hobbiesPreset);
+
+  useEffect(() => {
+    const defaultImageUrl = '/gojo.jpg';
+    fetch(defaultImageUrl)
+    .then((res) => res.blob())
+    .then((blob) => {
+      const defaultFile = new File([blob], "gojo.jpg", {type: blob.type});
+      setFile(defaultFile);
+    })
+  }, [])
 
   const themes = [
     "light",
@@ -67,6 +82,9 @@ export default function Home() {
 
   const handleResetExperience = () => setExperiences([]);
   const handleResetEducation = () => setEducations([]);
+  const handleResetLanguages = () => setLanguages([]);
+  const handleResetSkills = () => setSkills([]);
+  const handleResetHobbies = () => setHobbies([]);
 
   return (
     <div>
@@ -125,10 +143,33 @@ export default function Home() {
               />
 
               <div className="flex justify-between items-center">
-                <h1 className="badge badge-primary badge-outline">Language</h1>
-                <button onClick={handleResetEducation} className="btn btn-primary btn-sm">
+                <h1 className="badge badge-primary badge-outline">Languages</h1>
+                <button onClick={handleResetLanguages} className="btn btn-primary btn-sm">
                   <RotateCw className="w-4" />
                 </button>
+              </div>
+
+              <LanguageForm
+                languages={languages}
+                setLanguages={setLanguages}
+              />
+
+              <div className="flex justify-between">
+
+                <div className="w-1/2">
+                  <div className="flex justify-between items-center">
+                    <h1 className="badge badge-primary badge-outline">Skills</h1>
+                    <button onClick={handleResetSkills} className="btn btn-primary btn-sm">
+                      <RotateCw className="w-4" />
+                    </button>
+                  </div>
+
+                  <SkillForm
+                    skills={skills} 
+                    setSkills={setSkills}
+                  />
+                </div>
+
               </div>
 
             </div>
@@ -167,6 +208,7 @@ export default function Home() {
                 theme={theme}
                 experiences={experiences}
                 educations={educations}
+                languages={languages}
               />
             </div>
           </div>

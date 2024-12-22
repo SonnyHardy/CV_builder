@@ -94,7 +94,7 @@ const EducationForm : React.FC<Props> = ({educations, setEducations}) => {
 
 
         <button onClick={handleAddEducation} className="btn btn-primary mt-4">
-            Ajouter
+            Add
             <Plus className="w-4" />
         </button>
 

@@ -91,7 +91,7 @@ const ExperienceForm: React.FC<Props> = ({ experiences, setExperiences }) => {
 
 
         <button onClick={handleAddExperience} className="btn btn-primary mt-4">
-            Ajouter
+            Add
             <Plus className="w-4" />
         </button>
 

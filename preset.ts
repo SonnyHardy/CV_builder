@@ -47,8 +47,8 @@ export const skillsPreset: Skill[] = [
 ];
 
 export const languagesPreset: Language[] = [
-    { id: 'uuid-6', language: 'Anglais', proficiency: 'Avancé' },
-    { id: 'uuid-7', language: 'Français', proficiency: 'Débutant' }
+    { id: 'uuid-6', language: 'Anglais', proficiency: 'Advanced' },
+    { id: 'uuid-7', language: 'Français', proficiency: 'Beginner' }
 ];
 
 export const hobbiesPreset: Hobby[] = [
