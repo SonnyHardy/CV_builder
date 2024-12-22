@@ -10,6 +10,7 @@ import ExperienceForm from "./components/ExperienceForm";
 import EducationForm from "./components/EducationForm";
 import LanguageForm from "./components/LanguageForm";
 import SkillForm from "./components/SkillForm";
+import HobbyForm from "./components/HobbyForm";
 
 export default function Home() {
 
@@ -156,6 +157,7 @@ export default function Home() {
 
               <div className="flex justify-between">
 
+                {/* Skills */}
                 <div className="w-1/2">
                   <div className="flex justify-between items-center">
                     <h1 className="badge badge-primary badge-outline">Skills</h1>
@@ -167,6 +169,21 @@ export default function Home() {
                   <SkillForm
                     skills={skills} 
                     setSkills={setSkills}
+                  />
+                </div>
+
+                {/* Hobbies */}
+                <div className="w-1/2 ml-4">
+                  <div className="flex justify-between items-center">
+                    <h1 className="badge badge-primary badge-outline">Hobbies</h1>
+                    <button onClick={handleResetHobbies} className="btn btn-primary btn-sm">
+                      <RotateCw className="w-4" />
+                    </button>
+                  </div>
+
+                  <HobbyForm
+                    hobbies={hobbies} 
+                    setHobbies={setHobbies}
                   />
                 </div>
 
@@ -209,6 +226,8 @@ export default function Home() {
                 experiences={experiences}
                 educations={educations}
                 languages={languages}
+                skills={skills}
+                hobbies={hobbies}
               />
             </div>
           </div>

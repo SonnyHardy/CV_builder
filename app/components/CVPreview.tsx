@@ -1,4 +1,4 @@
-import { Education, Experience, Language, PersonalDetails } from '@/type';
+import { Education, Experience, Hobby, Language, PersonalDetails, Skill } from '@/type';
 import React from 'react';
 import Image from 'next/image';
 import { BriefcaseBusiness, GraduationCap, Mail, MapPinCheckInside, Phone, Star } from 'lucide-react';
@@ -10,6 +10,8 @@ type Props = {
     experiences: Experience[];
     educations: Education[];
     languages: Language[];
+    skills: Skill[];
+    hobbies: Hobby[];
 }
 
 function formatDate(dateString: string): string {
@@ -52,7 +54,7 @@ const getStarRating = (proficiency: string) => {
     );
 }
 
-const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, educations, languages}) => {
+const CVPreview: React.FC<Props> = ({ personalDetails, file, theme, experiences, educations, languages, skills, hobbies }) => {
 
     return (
         <div className={`flex p-16 w-[1000px] h-[1200px] shadow-lg`} data-theme={theme}>
@@ -120,22 +122,52 @@ const CVPreview: React.FC<Props> = ({personalDetails, file, theme, experiences, 
                         </ul>
                     </div>
 
+                    {/* Skills */}
+                    <div className='mt-6'>
+                        <h1 className='uppercase font-bold my-2'>Skills</h1>
+
+                        <div className='flex flex-wrap gap-2'>
+                            {skills.map((skill, index) => (
+                                <p className='badge badge-primary uppercase' key={index}>
+                                    {skill.name}
+                                </p>
+                            ))}
+                        </div>
+                    </div>
+
                     {/* Languages */}
                     <div className='mt-6'>
                         <h1 className='uppercase font-bold my-2'>Languages</h1>
-                    </div>
-                    <div className='flex flex-col space-y-2'>
-                        {languages.map((lang, index) => (
-                            <div key={index}>
-                                <span className='capitalize font-semibold'>
-                                    {lang.language}
-                                </span>
-                                <div className='flex mt-2'>
-                                    {getStarRating(lang.proficiency)}
+
+                        <div className='flex flex-col space-y-2'>
+                            {languages.map((lang, index) => (
+                                <div key={index}>
+                                    <span className='capitalize font-semibold'>
+                                        {lang.language}
+                                    </span>
+                                    <div className='flex mt-2'>
+                                        {getStarRating(lang.proficiency)}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
+
+                    {/* Hobbies */}
+                    <div className='mt-6'>
+                        <h1 className='uppercase font-bold my-2'>Hobbies</h1>
+
+                        <div className='flex flex-col space-y-2'>
+                            {hobbies.map((hobby, index) => (
+                                <div key={index}>
+                                    <span className='capitalize'>
+                                        {hobby.name}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
                 </div>
 
             </div>

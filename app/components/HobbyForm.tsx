@@ -1,28 +1,28 @@
-import { Skill } from '@/type';
+import { Hobby } from '@/type';
 import { Plus } from 'lucide-react';
 import React, { useState } from 'react'
 
 type Props = {
-    skills: Skill[];
-    setSkills: (skills: Skill[]) => void;
+    hobbies: Hobby[];
+    setHobbies: (hobbies: Hobby[]) => void;
 };
 
-const SkillForm : React.FC<Props> = ({ skills, setSkills }) => {
+const HobbyForm : React.FC<Props> = ({ hobbies, setHobbies }) => {
 
-    const [newSkill, setNewSkill] = useState<Skill>({
-            name: "",
+    const [newHobby, setNewHobby] = useState<Hobby>({
+        name: "",
     });
-    
+        
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-        field: keyof Skill
+        field: keyof Hobby
     ) => {
-        setNewSkill({ ...newSkill, [field]: e.target.value });
+        setNewHobby({ ...newHobby, [field]: e.target.value });
     };
-    
+        
     const handleAddSkill = () => {
-        setSkills([...skills, newSkill]);
-        setNewSkill({
+        setHobbies([...hobbies, newHobby]);
+        setNewHobby({
             name: "",
         });
     };
@@ -32,8 +32,8 @@ const SkillForm : React.FC<Props> = ({ skills, setSkills }) => {
             <div className='mt-4'>
                 <input
                     type="text"
-                    placeholder="Skill"
-                    value={newSkill.name}
+                    placeholder="Hobby"
+                    value={newHobby.name}
                     onChange={(e) => handleChange(e, "name")}
                     className="input input-bordered w-full"
                 />
@@ -47,4 +47,4 @@ const SkillForm : React.FC<Props> = ({ skills, setSkills }) => {
     )
 }
 
-export default SkillForm
+export default HobbyForm
