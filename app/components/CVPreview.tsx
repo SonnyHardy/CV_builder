@@ -1,5 +1,5 @@
 import { Education, Experience, Hobby, Language, PersonalDetails, Skill } from '@/type';
-import React from 'react';
+import React, { RefObject } from 'react';
 import Image from 'next/image';
 import { BriefcaseBusiness, GraduationCap, Mail, MapPinCheckInside, Phone, Star } from 'lucide-react';
 
@@ -13,7 +13,7 @@ type Props = {
     skills: Skill[];
     hobbies: Hobby[];
     download?: boolean;
-    ref?: any;
+    ref?: RefObject<null>;
 }
 
 function formatDate(dateString: string): string {
